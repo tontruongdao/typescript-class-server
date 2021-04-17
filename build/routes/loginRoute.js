@@ -9,11 +9,23 @@ router.get('/login', function (req, res) {
 });
 router.post('/login', function (req, res) {
     var _a = req.body, email = _a.email, password = _a.password;
-    if (email && password && email === 'hi@hi.com' && password === 'password') {
+    if (email && password && email === 'a@gmail.com' && password === 'password') {
         req.session = { loggedIn: true };
         res.redirect('/');
     }
     else {
         res.send('You must provide an email!');
     }
+});
+router.get('/', function (req, res) {
+    if (req.session && req.session.loggedIn) {
+        res.send("\n            <div>\n                <div>You are logged In</div>\n                <a href='/logout'>Logout</a>\n            </div>\n        ");
+    }
+    else {
+        res.send("\n        <div>\n            <div>You are not  logged In</div>\n            <a href='/login'>Login</a>\n        </div>\n    ");
+    }
+});
+router.get('/logout', function (req, res) {
+    req.session = undefined;
+    res.redirect('/');
 });
